@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from cryptography.fernet import Fernet
 
 def write_key():
@@ -9,3 +10,5 @@ def write_key():
 def load_key():
 
     return open("key.key", "rb").read()
+
+write_key()
