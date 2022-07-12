@@ -6,13 +6,14 @@ Pequeño ransomware que cifra los archivos de una determinada carpeta local. Se 
 
 <br>
 
-[ -help ] Se muestran los comandos disponibles para el programa.
+[ -help ][ h ] Se muestran los comandos disponibles para el programa.
 
-[ -silent ] Silencia el proceso de encriptación de los archivos.
+[ -silent ][ s ] Silencia el proceso de encriptación de los archivos.
 
-[ -version ] Muestra la versión del programa.
+[ -reverse ][ r ] Descifra los archivos usándolo junto con la clave de descifrado [ ./ramon.py -reverse + [key] ]
 
-[ -reverse ] Descifra los archivos usándolo junto con la clave de descifrado [ ./ramon.py -reverse + [key] ]
+[ -version ][ v ] Muestra la versión del programa.
+
 
 <br>
 <p>

