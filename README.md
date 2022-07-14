@@ -2,22 +2,22 @@
 
 <br>
 
-Pequeño ransomware que cifra los archivos de una determinada carpeta local. Se genera una clave de encriptado que se usará para dicho fin.
+Script that encrypts local files. It can recieve flags and decrypt the files with the encryption key.
 
 <br>
 
-[ -help ][ h ] Se muestran los comandos disponibles para el programa.
+[ -help ][ h ] Shows avaible flags for the program.
 
-[ -silent ][ s ] Silencia el proceso de encriptación de los archivos.
+[ -silent ][ s ] Silences the file encryption process.
 
-[ -reverse ][ r ] Descifra los archivos usándolo junto con la clave de descifrado [ ./ramon.py -reverse + [key] ]
+[ -reverse ][ r ] Decrypt files using it along with decryption key [ ./ramon.py -reverse + [key] ]
 
-[ -version ][ v ] Muestra la versión del programa.
+[ -version ][ v ] Shows program version.
 
 
 <br>
 <p>
-Instalar: 
+Needed: 
 
 python3
 
