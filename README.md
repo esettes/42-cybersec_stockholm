@@ -1,9 +1,10 @@
 ### Stockholm
 
 You can init your docker(school) with a [custom 42 school script](https://github.com/alexandregv/42toolbox/blob/master/init_docker.sh)
+
 <br>
+
 After this, check that the proyect is in your user directory and `cd stockholm` into it.
-<br>
 Then start to build the container. First mount the image:
 
 `make build`
