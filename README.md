@@ -42,3 +42,8 @@ It can recieve flags and decrypt the files with the encryption key.
 [ -reverse ][ r ] Decrypt files using it along with decryption key [ ./ramon.py -reverse + [key] ]
 
 [ -version ][ v ] Shows program version.
+
+<br>
+
+The encryption/decryption key is in *utils* directory (key.key). You can generate a different key with the
+`./crypt.py` command.
