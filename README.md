@@ -6,11 +6,13 @@ After this, check that the proyect is in your user directory and ´´´´cd stoc
 <br>
 Then start to build the container. First mount the image:
 
-´´´´ make build ´´´´
+´´´´
+make build
+´´´´
 
 Mount the directories, this gets the proyect folder and puts ir in the image home directory.
 
-´´´´ make run ´´´´
+´make run´
 
 And finally execute the container!
 
