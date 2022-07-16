@@ -2,7 +2,7 @@
 
 You can init your docker(school) with a [custom 42 school script](https://github.com/alexandregv/42toolbox/blob/master/init_docker.sh)
 <br>
-After this, check that the proyect is in your user directory and ´´´´cd stockholm ´´´´into it.
+After this, check that the proyect is in your user directory and `cd stockholm` into it.
 <br>
 Then start to build the container. First mount the image:
 
@@ -14,13 +14,13 @@ Mount the directories, this gets the proyect folder and puts ir in the image hom
 
 And finally execute the container!
 
-´´´´make exec ´´´´
+`make exec`
 
-Now we are in Debian 11, ´´´´cd /home/ ´´´´and here is the script and the test directory (infection).
+Now we are in Debian 11, `cd /home/` and here is the script and the test directory (infection).
 
 Encrypt files using:
 
-´´´´./stock.py ´´´´
+`./stock.py`
 
 <br>
 
