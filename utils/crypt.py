@@ -1,4 +1,4 @@
-#!/Volumes/sgoinfre/students/iostancu/homebrew/bin/python3
+#!/usr/bin/python3.9
 from cryptography.fernet import Fernet
 
 def write_key():
