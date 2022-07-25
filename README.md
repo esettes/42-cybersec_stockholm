@@ -13,7 +13,9 @@ You can init your docker(school) with a [custom 42 school script](https://github
 After this, check that the proyect is in your user directory and `cd stockholm` into it.
 Then execute:
 
-`make`
+````Makefile
+make
+````
 
 This builds the image, runs the container and executes it with bash. You can type `make help` to see avaible commands.
 
@@ -23,7 +25,9 @@ Now we are in Debian 11, `cd /home/` and here is the script and the test directo
 
 Encrypt files using:
 
-`./stock.py`
+````
+./stock.py
+````
 
 <br>
 
