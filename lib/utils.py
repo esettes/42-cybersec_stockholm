@@ -3,8 +3,10 @@ from cryptography.fernet import Fernet
 from lib.bcolors import bcol
 from lib import crypt
 
-def files_treat(extensions, mode, silence, key):
-    
+def files_treat(extensions, crypt, silence, key):
+    """
+    Unifies the program modes and runs it.
+    """
     folder = "infection"
     if key == "":
         with open("utils/key.key", "rb") as mykey:
@@ -12,7 +14,7 @@ def files_treat(extensions, mode, silence, key):
     k = Fernet(key)
     for count, filename in enumerate(listdir(folder)):
         src = folder + '/' + filename
-        switch_crypt(extensions, mode, src, k, silence)
+        switch_crypt(extensions, crypt, src, k, silence)
 
 def call_rev_files(extensions, key, silence):
 

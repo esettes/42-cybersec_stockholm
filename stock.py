@@ -1,13 +1,56 @@
 #!/usr/bin/python3.9
-import sys
+import sys, argparse
+from argparse import RawTextHelpFormatter
+from tkinter.messagebox import NO
+from xmlrpc.client import boolean
 from lib import messages, utils
 from lib.bcolors import bcol
 
 def main(argv):
 
+    head = """
+  _____ ___ _____ ____        ____            
+ |_   _/ _ |_   _|  _ \      / ___| ___ _ __  
+   | || | | || | | |_) _____| |  _ / _ | '_ \ 
+   | || |_| || | |  __|_____| |_| |  __| | | |
+   |_| \___/ |_| |_|         \____|\___|_| |_|
+
+Temporary one time password generator.
+------------------------------------------------
+Usually steps:
+\tCreate a master key:
+[ ./ft_otp -rg "My super secret master key 123456 super password" ]
+
+\tGenerate tot-password:
+[ ./ft_otp -k ft_otp.key ]
+------------------------------------------------
+    """
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter, description=head)
+    parser.add_argument('-v','--version', action='store_true', help="Show program version.")
+    parser.add_argument('-s','--silent', default=None, help="Silence the file de/encryption process.")
+    parser.add_argument('-r','--reverse', metavar='<key>', default=None, help="Reverse the files encription.")
+    args = parser.parse_args()
+
+    silence = True
+    crypt = True
     key = ""
-    mode = "crypt"
     lst = utils.load_list_ext()
+    if args.version and args.silent == None and args.reverse == None: # print prog version
+        messages.version_mssg()
+        return
+    if args.reverse != None and args.silent == None and args.version == None: # reverse cript 
+        silence = False
+        crypt = False
+        key = args.reverse
+    if args.reverse != None and args.silent != None and args.version == None: # reverse cript quietly
+        silence = True
+        crypt = False
+        key = args.reverse
+    if args.silent != None: # cript files
+        silence = True
+    utils.files_treat(lst, crypt, silence, key)
+
+
     if len(argv) > 4:
         messages.many_args_mssg()
     elif len(argv) > 1:
