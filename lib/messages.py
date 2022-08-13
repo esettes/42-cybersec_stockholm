@@ -1,4 +1,5 @@
 from lib.bcolors import bcol
+from rich import print
 
 def help_mssg():
 
@@ -12,7 +13,7 @@ def help_mssg():
 def version_mssg():
 
     print(bcol.CURSI + "Stock(holm) version 1.0")
-    print("July 2022" + bcol.ENDC)
+    print("[blue underline]July 2022" + bcol.ENDC)
 
 def many_args_mssg():
     print(bcol.FAIL + "[ERROR]" + bcol.ENDC + " Too many arguments.")
