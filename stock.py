@@ -1,87 +1,46 @@
 #!/usr/bin/python3.9
+from pathlib import Path
 import sys, argparse
 from argparse import RawTextHelpFormatter
-from tkinter.messagebox import NO
-from xmlrpc.client import boolean
 from lib import messages, utils
-from lib.bcolors import bcol
+from lib.programmode import Stockholm
 
 def main(argv):
-
+#"""default=Path(__file__).relative_to('/home/')""""
     head = """
-  _____ ___ _____ ____        ____            
- |_   _/ _ |_   _|  _ \      / ___| ___ _ __  
-   | || | | || | | |_) _____| |  _ / _ | '_ \ 
-   | || |_| || | |  __|_____| |_| |  __| | | |
-   |_| \___/ |_| |_|         \____|\___|_| |_|
 
-Temporary one time password generator.
-------------------------------------------------
-Usually steps:
-\tCreate a master key:
-[ ./ft_otp -rg "My super secret master key 123456 super password" ]
-
-\tGenerate tot-password:
-[ ./ft_otp -k ft_otp.key ]
-------------------------------------------------
-    """
+        █▀ ▀█▀ █▀█ █▀▀ █▄▀ █░█ █▀█ █░░ █▀▄▀█
+        ▄█ ░█░ █▄█ █▄▄ █░█ █▀█ █▄█ █▄▄ █░▀░█
+                ──▄────▄▄▄▄▄▄▄────▄───
+                ─▀▀▄─▄█████████▄─▄▀▀──
+                ─────██─▀███▀─██──────
+                ───▄─▀████▀████▀─▄────
+                ─▀█────██▀█▀██────█▀──              """
     parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter, description=head)
-    parser.add_argument('-v','--version', action='store_true', help="Show program version.")
-    parser.add_argument('-s','--silent', default=None, help="Silence the file de/encryption process.")
-    parser.add_argument('-r','--reverse', metavar='<key>', default=None, help="Reverse the files encription.")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-v','--version', action='store_true', help="Show program version.")
+    parser.add_argument('-s','--silent', action='store_true', help="Silence the file de/encryption process.")
+    parser.add_argument('-r','--reverse', type=Path, metavar='<key>', default=None, help="Reverse the files encription.")
     args = parser.parse_args()
 
-    silence = True
-    crypt = True
-    key = ""
-    lst = utils.load_list_ext()
-    if args.version and args.silent == None and args.reverse == None: # print prog version
+    stockholm = Stockholm(silence=False, crypt=True)
+    if args.version and args.silent == False and args.reverse == None:
         messages.version_mssg()
         return
-    if args.reverse != None and args.silent == None and args.version == None: # reverse cript 
-        silence = False
-        crypt = False
-        key = args.reverse
-    if args.reverse != None and args.silent != None and args.version == None: # reverse cript quietly
-        silence = True
-        crypt = False
-        key = args.reverse
-    if args.silent != None: # cript files
-        silence = True
-    utils.files_treat(lst, crypt, silence, key)
+    if args.reverse != None: #and args.silent == False and args.version == None: # reverse cript 
+        stockholm.set_silence(False)
+        stockholm.set_crypt(False)
+        stockholm.set_key(args.reverse)
+    if args.reverse != None and args.silent:# and args.version == None: # reverse cript quietly
+        stockholm.set_silence(True)
+        stockholm.set_crypt(False)
+        stockholm.set_key(args.reverse)
+    if args.silent:
+        stockholm.set_silence(True)
+    #print("silence : " + str(stockholm.silence) + ", crypt: " + str(stockholm.crypt) + ", key: " + str(stockholm.key))
+    utils.files_treat(stockholm._lst, stockholm.crypt, stockholm.silence, stockholm.key)
 
-
-    if len(argv) > 4:
-        messages.many_args_mssg()
-    elif len(argv) > 1:
-        if argv[1] == "-help" or argv[1] == "-h":
-            if len(argv) > 2:
-                messages.many_args_mssg()
-            else:
-                messages.help_mssg()
-        elif argv[1] == "-version" or argv[1] == "-v":
-            if len(argv) > 2:
-                messages.many_args_mssg()
-            else:
-                messages.version_mssg()
-        elif argv[1] == "-silent" or argv[1] == "-s":
-            if len(argv) == 2:
-                utils.files_treat(lst, mode, True, key)
-            elif len(argv) == 3:
-                messages.did_you_mean_mssg(argv[0])
-            elif len(argv) == 4:
-                utils.call_rev_files(lst, argv[3], True)
-        elif argv[1] == "-reverse" or argv[1] == "-r":
-            if len(argv) < 3:
-                messages.introduce_key_mssg()
-            elif len(argv) == 4:
-                messages.did_you_mean_mssg(argv[0])
-            else:
-                utils.call_rev_files(lst, argv[2], False)
-        else:
-            messages.cmd_not_found_mssg()
-    else:
-        utils.files_treat(lst, mode, False, key)
+    return
 
 if __name__ == '__main__':
     main(sys.argv)

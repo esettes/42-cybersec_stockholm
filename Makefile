@@ -14,12 +14,18 @@ BLUE	=\033[0;35m
 GREEN	=\033[0;36m
 YELLOW	=\033[0;33m
 
-MOUNT_SRC = /Users/${USER}/stockholm
+
 TARGET_SRC = /home/
 APP_NAME = stockholm:v1
 CONTAINER = wannacry
 
-all:	build	run	exec
+ifeq  ($(OS),Darwin)
+MOUNT_SRC = /Users/${USER}/stockholm
+else
+MOUNT_SRC = /home/settes/Desktop/workspace/cybersec/stockholm
+endif
+
+all:	run	exec
 
 list:
 	@echo "${BLUE}"
