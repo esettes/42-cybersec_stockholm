@@ -83,7 +83,7 @@ def SetArgs():
 
 def PrintCryptHeader(crypt):
     if crypt:
-        print(bcol.FAIL + """
+        print(bcol.RED + """
     ──▄────▄▄▄▄▄▄▄────▄───
     ─▀▀▄─▄█████████▄─▄▀▀──
     ─────██─▀███▀─██──────

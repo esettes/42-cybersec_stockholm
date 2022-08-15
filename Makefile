@@ -6,14 +6,13 @@
 #    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/16 17:25:10 by iostancu          #+#    #+#              #
-#    Updated: 2022/08/15 15:20:41 by iostancu         ###   ########.fr        #
+#    Updated: 2022/08/15 16:41:21 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 BLUE	=\033[0;35m
 GREEN	=\033[0;36m
 YELLOW	=\033[0;33m
-
 
 TARGET_SRC = /home/
 APP_NAME = stockholm:v1
@@ -38,15 +37,15 @@ build-nc: ## Build the container without caching
 	docker build -f ${DOCKER_PATH} --no-cache -t ${APP_NAME} .
 
 run:
-	docker run -f ${DOCKER_PATH} --rm -it -d --mount type=bind,source=${MOUNT_SRC},target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash
+	docker run  -it -d --mount type=bind,source=${MOUNT_SRC},target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash 
 
 delete:
 	@echo "${BLUE}"
-	docker stop -f ${DOCKER_PATH} ${CONTAINER}
-	@echo "${GREEN}"
-	docker rm -f ${DOCKER_PATH} ${CONTAINER}
+	docker rm -fv ${CONTAINER}
+#	@echo "${GREEN}"
+#	docker rm  ${CONTAINER}
 	@echo "${YELLOW}"
-	docker rmi -f ${DOCKER_PATH} ${APP_NAME}
+	docker rmi  ${APP_NAME}
 
 exec:
 	docker exec -it ${CONTAINER} bash

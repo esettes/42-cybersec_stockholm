@@ -1,7 +1,5 @@
 # Stockholm
 
-<br>
-
 Program that recursively encrypts and decrypts local files starting from the indicated directory.
 
 ````
@@ -14,9 +12,7 @@ Program that recursively encrypts and decrypts local files starting from the ind
                 ─▀█────██▀█▀██────█▀──  
 ````
 
-<br>
-
-The program runs inside a Docker container. The creation and execution of the environment is automated with Makefile.
+The program runs inside a Docker container, which is builded on Debian. The creation and execution of the environment is automated with Makefile.
 
 An image must first be created.
 
@@ -28,8 +24,7 @@ And then the container gets up and runs.
 ````bash
 make
 ````
-
-The container has been built on Debian. The program was in `cd /home/` with the infection folder.
+Now we can start program.
 
 You can type `make help` to see more avaible commands.
 
@@ -42,9 +37,6 @@ Encrypt files using:
 ````
 ./stock.py
 ````
-
-<br>
-
 It can recieve flags and decrypt the files with the encryption key.
 
 ````bash
@@ -55,4 +47,4 @@ It can recieve flags and decrypt the files with the encryption key.
 
 <br>
 
-The encryption/decryption key is named 'key.key'. You can generate a different key with the `./generatekey.py` command (in /utils folder).
+The encryption/decryption key is named 'key.key'. You can generate a different key with the `./generatekey.py` command (in lib/utils folder).

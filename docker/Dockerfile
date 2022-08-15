@@ -1,7 +1,13 @@
-FROM debian:11
+FROM debian:bullseye-slim
 
-RUN apt-get update -y && apt-get install -y vim python3 python3-pip
+WORKDIR /home/
+
+RUN apt-get update -y && \
+	apt-get install -y vim python3 python3-pip
+
 RUN pip3 install cryptography
-#RUN pip3 install --upgrade pip3 setuptools
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN cd /home
+
+RUN apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
+	
+CMD ["bash"]
