@@ -1,27 +1,41 @@
-### Stockholm
+# Stockholm
 
 <br>
 
-Program that encrypts and decrypts local files.
+Program that recursively encrypts and decrypts local files starting from the indicated directory.
+
+````
+        █▀ ▀█▀ █▀█ █▀▀ █▄▀ █░█ █▀█ █░░ █▀▄▀█
+        ▄█ ░█░ █▄█ █▄▄ █░█ █▀█ █▄█ █▄▄ █░▀░█
+                ──▄────▄▄▄▄▄▄▄────▄───
+                ─▀▀▄─▄█████████▄─▄▀▀──
+                ─────██─▀███▀─██──────
+                ───▄─▀████▀████▀─▄────
+                ─▀█────██▀█▀██────█▀──  
+````
 
 <br>
 
-You can init your docker(school) with a [custom 42 school script](https://github.com/alexandregv/42toolbox/blob/master/init_docker.sh)
+The program runs inside a Docker container. The creation and execution of the environment is automated with Makefile.
 
-<br>
+An image must first be created.
 
-After this, check that the proyect is in your user directory and `cd stockholm` into it.
-Then execute:
+````bash
+make build
+````
+And then the container gets up and runs.
 
-````Makefile
+````bash
 make
 ````
 
-This builds the image, runs the container and executes it with bash. You can type `make help` to see avaible commands.
+The container has been built on Debian. The program was in `cd /home/` with the infection folder.
+
+You can type `make help` to see more avaible commands.
 
 <br>
 
-Now we are in Debian 11, `cd /home/` and here is the script and the test directory (infection).
+## Crypt files
 
 Encrypt files using:
 
@@ -33,9 +47,12 @@ Encrypt files using:
 
 It can recieve flags and decrypt the files with the encryption key.
 
-`./stock -help` to see the avaible flags
+````bash
+./stock.py -r key.key
+````
+
+`./stock -help` to see more avaible flags
 
 <br>
 
-The encryption/decryption key is in *utils* directory (key.key). You can generate a different key with the
-`./crypt.py` command.
+The encryption/decryption key is named 'key.key'. You can generate a different key with the `./generatekey.py` command (in /utils folder).

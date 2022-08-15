@@ -14,11 +14,22 @@ BLUE	=\033[0;35m
 GREEN	=\033[0;36m
 YELLOW	=\033[0;33m
 
+<<<<<<< HEAD
 TARGET_SRC = /home/
 APP_NAME = stockholm:v1
 CONTAINER = wannacry
 SOURCE = /Users/iostancu/Desktop/cursus/cybersec/stockholm
 all:	build	run	exec
+=======
+
+TARGET_SRC = /home/
+APP_NAME = stockholm:v1
+CONTAINER = wannacry
+MOUNT_SRC = $(shell pwd)
+DOCKER_PATH = './docker/Dockerfile'
+
+all:	run	exec
+>>>>>>> 3e5e839a6b0af94bb7af4abceaac7767686211ab
 
 list:
 	@echo "${BLUE}"
@@ -29,21 +40,25 @@ list:
 	docker images
 
 build:
-	docker build -t ${APP_NAME} .
+	docker build -f ${DOCKER_PATH} -t ${APP_NAME} .
 
 build-nc: ## Build the container without caching
-	docker build --no-cache -t ${APP_NAME} .
+	docker build -f ${DOCKER_PATH} --no-cache -t ${APP_NAME} .
 
 run:
+<<<<<<< HEAD
 	docker run -it -d --mount type=bind,source=$(SOURCE),target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash
+=======
+	docker run -f ${DOCKER_PATH} --rm -it -d --mount type=bind,source=${MOUNT_SRC},target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash
+>>>>>>> 3e5e839a6b0af94bb7af4abceaac7767686211ab
 
 delete:
 	@echo "${BLUE}"
-	docker stop ${CONTAINER}
+	docker stop -f ${DOCKER_PATH} ${CONTAINER}
 	@echo "${GREEN}"
-	docker rm ${CONTAINER}
+	docker rm -f ${DOCKER_PATH} ${CONTAINER}
 	@echo "${YELLOW}"
-	docker rmi ${APP_NAME}
+	docker rmi -f ${DOCKER_PATH} ${APP_NAME}
 
 exec:
 	docker exec -it ${CONTAINER} bash
