@@ -1,5 +1,4 @@
 from lib.bcolors import bcol
-from rich import print
 
 def help_mssg():
 
@@ -13,7 +12,7 @@ def help_mssg():
 def version_mssg():
 
     print(bcol.CURSI + "Stock(holm) version 1.0")
-    print("[blue underline]July 2022" + bcol.ENDC)
+    print("July 2022" + bcol.ENDC)
 
 def many_args_mssg():
     print(bcol.FAIL + "[ERROR]" + bcol.ENDC + " Too many arguments.")
@@ -26,4 +25,4 @@ def introduce_key_mssg():
     print ("Introduce the key [ -reverse + <key> ]")
 
 def cmd_not_found_mssg():
-    print(bcol.FAIL + "[ERROR]" + bcol.ENDC + "Command not found")
+    print(bcol.FAIL + "[ERROR]" + bcol.ENDC + " Command not found")
