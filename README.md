@@ -1,4 +1,4 @@
-### Stockholm
+# Stockholm
 
 <br>
 
@@ -55,4 +55,4 @@ It can recieve flags and decrypt the files with the encryption key.
 
 <br>
 
-The encryption/decryption key is named 'key.key'. You can generate a different key with the `./crypt.py` command (in /utils folder).
+The encryption/decryption key is named 'key.key'. You can generate a different key with the `./generatekey.py` command (in /utils folder).
