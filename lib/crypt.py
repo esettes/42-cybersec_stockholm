@@ -20,12 +20,13 @@ def encrypt_file(extensions, src, k, silence, folder):
                     dst = folder + '/' + newname
                     rename(src, dst)
                     if silence == False:
-                        print(bcol.GREEN + newname + " encripted" + bcol.ENDC)
+                        print(bcol.FAIL + newname + " encripted" + bcol.ENDC)
                 else:
                     if silence == False:
-                        print(bcol.GREEN + newfile[1] + " encripted" + bcol.ENDC)
+                        print(bcol.FAIL + newfile[1] + " encripted" + bcol.ENDC)
     except Exception as e:
-        msg.err_msg("An error ocurred during encription: " + e)
+        msg.err_msg("An error ocurred during encription: ")
+        print(e)
         return
 
 def decrypt_file(src, k, silence, folder):
@@ -44,5 +45,6 @@ def decrypt_file(src, k, silence, folder):
                 if silence == False:
                     print(bcol.GREEN + name + " decriped as " + newname + bcol.ENDC)
     except Exception as e:
-        msg.err_msg("An error ocurred during decription" + e)
+        msg.err_msg("An error ocurred during decription")
+        print(e)
         return

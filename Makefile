@@ -18,12 +18,8 @@ YELLOW	=\033[0;33m
 TARGET_SRC = /home/
 APP_NAME = stockholm:v1
 CONTAINER = wannacry
-
-ifeq  ($(OS),Darwin)
-MOUNT_SRC = /Users/${USER}/stockholm
-else
-MOUNT_SRC = /home/settes/Desktop/workspace/cybersec/stockholm
-endif
+MOUNT_SRC = $(shell pwd)
+DOCKER_PATH = './docker/Dockerfile'
 
 all:	run	exec
 
@@ -36,21 +32,21 @@ list:
 	docker images
 
 build:
-	docker build -t ${APP_NAME} .
+	docker build -f ${DOCKER_PATH} -t ${APP_NAME} .
 
 build-nc: ## Build the container without caching
-	docker build --no-cache -t ${APP_NAME} .
+	docker build -f ${DOCKER_PATH} --no-cache -t ${APP_NAME} .
 
 run:
-	docker run -it -d --mount type=bind,source=${MOUNT_SRC},target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash
+	docker run -f ${DOCKER_PATH} --rm -it -d --mount type=bind,source=${MOUNT_SRC},target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash
 
 delete:
 	@echo "${BLUE}"
-	docker stop ${CONTAINER}
+	docker stop -f ${DOCKER_PATH} ${CONTAINER}
 	@echo "${GREEN}"
-	docker rm ${CONTAINER}
+	docker rm -f ${DOCKER_PATH} ${CONTAINER}
 	@echo "${YELLOW}"
-	docker rmi ${APP_NAME}
+	docker rmi -f ${DOCKER_PATH} ${APP_NAME}
 
 exec:
 	docker exec -it ${CONTAINER} bash

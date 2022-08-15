@@ -1,7 +1,6 @@
 from lib.bcolors import bcol
 
 def version_mssg():
-
     print(bcol.CURSI + "Stock(holm) version 1.0")
     print("July 2022" + bcol.ENDC)
 
