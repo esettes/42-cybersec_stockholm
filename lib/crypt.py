@@ -1,4 +1,3 @@
-from io import FileIO
 from os import rename
 from os.path import split, splitext
 from lib.bcolors import bcol
@@ -29,13 +28,10 @@ def encrypt_file(extensions, src, k, silence, folder):
                 else:
                     if silence == False:
                         print(bcol.RED + newfile[1] + " encripted" + bcol.ENDC)
-    #except Exception as e:
-     #   msg.err_msg("An error ocurred during encription: ")
-      #  print(e)
         return
 
+
 def decrypt_file(src, k, silence, folder):
-#    try:
         newfile = split(src)
         if newfile[1].endswith('.ft'):
             try:
@@ -54,7 +50,4 @@ def decrypt_file(src, k, silence, folder):
             rename(src, dst)
             if silence == False:
                 print(bcol.GREEN + name + " decriped as " + newname + bcol.ENDC)
- #   except Exception as e:
-  #      msg.err_msg("An error ocurred during decription")
-   #     print(e)
         return

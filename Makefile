@@ -6,7 +6,7 @@
 #    By: iostancu <iostancu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/16 17:25:10 by iostancu          #+#    #+#              #
-#    Updated: 2022/08/15 16:41:21 by iostancu         ###   ########.fr        #
+#    Updated: 2022/08/17 15:37:10 by iostancu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,6 @@ list:
 
 build:
 	docker build -f ${DOCKER_PATH} -t ${APP_NAME} .
-
-build-nc: ## Build the container without caching
-	docker build -f ${DOCKER_PATH} --no-cache -t ${APP_NAME} .
 
 run:
 	docker run  -it -d --mount type=bind,source=${MOUNT_SRC},target=${TARGET_SRC} --name ${CONTAINER} ${APP_NAME} bash 

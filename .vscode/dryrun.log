@@ -1,0 +1,7 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/iostancu/Desktop/cursus/cybersec/stockholm'
+docker run  -it -d --mount type=bind,source=/Users/iostancu/Desktop/cursus/cybersec/stockholm,target=/home/ --name wannacry stockholm:v1 bash 
+ 
+docker exec -it wannacry bash
+make: Leaving directory `/Users/iostancu/Desktop/cursus/cybersec/stockholm'
+ 
